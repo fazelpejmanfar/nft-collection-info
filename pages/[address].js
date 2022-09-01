@@ -21,12 +21,14 @@ function Contract() {
         console.log("Contract", data);
         setINFO(data);
         setSLUG(data.collection.slug);
+        setTimeout(() => {
             fetch(`https://api.opensea.io/api/v1/collection/${data.collection.slug}/stats`, OPT)
             .then(response => response.json())
             .then(data => {
                 console.log("Stats", data.stats);
                 setStats(data.stats);
             });
+        }, 2500);
     });
   };
 
@@ -51,7 +53,8 @@ function Contract() {
     return (
         <div className={Styles.Container}>
 
-        <div className={Styles.IconWrapper}>
+        {Stats !== undefined ? (
+         <div className={Styles.IconWrapper}>
         <a className={Styles.Icons} href={`https://etherscan.io/address/${address}`} target={'_blank'} rel='noreferrer'>
         <div className='w-[35px] h-[35px]'>
         <Image className=' rounded-xl' src={'/eth.png'} alt='etherscan' width={35} height={35} layout={'responsive'}/>
@@ -84,12 +87,19 @@ function Contract() {
 
 
         </div>
+        ) : (
+            <></>
+        )}
 
-        <div className={Styles.InfoWrapper}>
+        {Stats !== undefined ? (
+            <>
+            <div className={Styles.InfoWrapper}>
         <div className={Styles.IMGWrapper}>
         <div className='w-[250px] h-[250px]'>
         <Image className=' rounded-xl' src={INFO?.image_url} alt='PFP' width={250} height={250} layout={'responsive'}/>
         </div>
+
+
         <h3 className=' pt-2 text-xl text-white font-bold text-center sm:text-md'>
             {INFO?.name} ({INFO?.symbol})
         </h3>
@@ -122,6 +132,16 @@ function Contract() {
         <InfoBox Name={'30D Volume'} Value={String(Stats?.thirty_day_volume).substring(0,5)}/>
         </div>
         </div>
+           </>
+        ) : (
+            <>
+            <h3 className=' text-lg text-[#7fffd4] font-bold sm:text-[10px] text-center'>
+            Loading...
+        </h3>
+            </>
+        )}
+
+
 
 
         </div>
