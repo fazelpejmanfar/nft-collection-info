@@ -18,14 +18,12 @@ function Contract() {
     fetch(`https://api.opensea.io/api/v1/asset_contract/${address}`)
     .then(response => response.json())
     .then(data => {
-        console.log("Contract", data);
         setINFO(data);
         setSLUG(data.collection.slug);
         setTimeout(() => {
             fetch(`https://api.opensea.io/api/v1/collection/${data.collection.slug}/stats`, OPT)
             .then(response => response.json())
             .then(data => {
-                console.log("Stats", data.stats);
                 setStats(data.stats);
             });
         }, 2500);
@@ -100,7 +98,7 @@ function Contract() {
         </div>
 
 
-        <h3 className=' pt-2 text-xl text-white font-bold text-center sm:text-md'>
+        <h3 className=' pt-2 text-xl text-[#7fffd4] font-bold text-center sm:text-md'>
             {INFO?.name} ({INFO?.symbol})
         </h3>
         </div>
